@@ -21,11 +21,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.davemeier82.homeautomation</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>homeautomation-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>instar</artifactId>
+    <artifactId>homeautomation-instar</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -56,14 +56,14 @@
     </issueManagement>
 
     <properties>
-        <core.version>0.0.1-SNAPSHOT</core.version>
+        <homeautomation-core.version>0.0.1-SNAPSHOT</homeautomation-core.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.davemeier82.homeautomation</groupId>
-            <artifactId>core</artifactId>
-            <version>${core.version}</version>
+            <artifactId>homeautomation-core</artifactId>
+            <version>${homeautomation-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
