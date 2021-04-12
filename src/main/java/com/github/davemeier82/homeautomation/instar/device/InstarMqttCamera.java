@@ -34,7 +34,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class InstarMqttCamera implements MqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttCamera.class);
   private static final String MQTT_TOPIC = "instar/";
-  public static final String TYPE = "instar/camera";
+  public static final String TYPE = "instar-camera";
 
   private final String id;
   private final InstarCameraMotionSensor motionSensor;
