@@ -16,36 +16,48 @@
 
 package com.github.davemeier82.homeautomation.instar.device;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
+import com.github.davemeier82.homeautomation.core.device.property.DefaultMotionSensor;
 import com.github.davemeier82.homeautomation.core.device.property.DeviceProperty;
 import com.github.davemeier82.homeautomation.core.event.EventFactory;
 import com.github.davemeier82.homeautomation.core.event.EventPublisher;
-import com.github.davemeier82.homeautomation.instar.device.property.InstarCameraMotionSensor;
+import com.github.davemeier82.homeautomation.instar.InstarMqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Integer.parseInt;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class InstarMqttCamera implements MqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttCamera.class);
-  private static final String MQTT_TOPIC = "instar/";
+  public static final String MQTT_TOPIC = "instar";
   public static final String TYPE = "instar-camera";
 
   private final String id;
-  private final InstarCameraMotionSensor motionSensor;
+  private final DefaultMotionSensor motionSensor;
   private final String baseTopic;
   private String displayName;
+  private final ObjectMapper objectMapper;
 
-  public InstarMqttCamera(String id, String displayName, EventPublisher eventPublisher, EventFactory eventFactory) {
+  public InstarMqttCamera(String id,
+                          String displayName,
+                          ObjectMapper objectMapper,
+                          EventPublisher eventPublisher,
+                          EventFactory eventFactory
+  ) {
     this.id = id;
     this.displayName = displayName;
-    motionSensor = new InstarCameraMotionSensor(0, this, eventPublisher, eventFactory);
-    baseTopic = MQTT_TOPIC + id + "/";
+    this.objectMapper = objectMapper;
+    motionSensor = new DefaultMotionSensor(0, this, eventPublisher, eventFactory);
+    baseTopic = MQTT_TOPIC + "/" + id + "/";
   }
 
   @Override
@@ -68,8 +80,15 @@ public class InstarMqttCamera implements MqttSubscriber {
     payload.ifPresent(byteBuffer -> {
       String message = UTF_8.decode(byteBuffer).toString();
       log.debug("{}: {}", topic, message);
-      if (topic.startsWith(baseTopic + "status/alarm")) {
-        motionSensor.setLastMotionDetected(ZonedDateTime.now());
+      if (topic.startsWith(baseTopic + "status/alarm/triggered")) {
+        try {
+          InstarMqttMessage instarMqttMessage = objectMapper.readValue(message, InstarMqttMessage.class);
+          if (parseInt(instarMqttMessage.getVal()) > 0) {
+            motionSensor.setLastMotionDetected(ZonedDateTime.now());
+          }
+        } catch (JsonProcessingException e) {
+          throw new UncheckedIOException(e);
+        }
       }
     });
   }
