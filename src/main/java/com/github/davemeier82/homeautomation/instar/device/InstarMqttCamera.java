@@ -18,11 +18,11 @@ package com.github.davemeier82.homeautomation.instar.device;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
-import com.github.davemeier82.homeautomation.core.device.property.defaults.DefaultMotionSensor;
+import com.github.davemeier82.homeautomation.core.device.mqtt.DefaultMqttSubscriber;
 import com.github.davemeier82.homeautomation.core.device.property.DeviceProperty;
-import com.github.davemeier82.homeautomation.core.event.factory.EventFactory;
+import com.github.davemeier82.homeautomation.core.device.property.defaults.DefaultMotionSensor;
 import com.github.davemeier82.homeautomation.core.event.EventPublisher;
+import com.github.davemeier82.homeautomation.core.event.factory.EventFactory;
 import com.github.davemeier82.homeautomation.instar.InstarMqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +31,13 @@ import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class InstarMqttCamera implements MqttSubscriber {
+public class InstarMqttCamera extends DefaultMqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttCamera.class);
   public static final String MQTT_TOPIC = "instar";
   public static final String TYPE = "instar-camera";
@@ -44,17 +45,17 @@ public class InstarMqttCamera implements MqttSubscriber {
   private final String id;
   private final DefaultMotionSensor motionSensor;
   private final String baseTopic;
-  private String displayName;
   private final ObjectMapper objectMapper;
 
   public InstarMqttCamera(String id,
                           String displayName,
                           ObjectMapper objectMapper,
                           EventPublisher eventPublisher,
-                          EventFactory eventFactory
+                          EventFactory eventFactory,
+                          Map<String, String> customIdentifiers
   ) {
+    super(displayName, customIdentifiers);
     this.id = id;
-    this.displayName = displayName;
     this.objectMapper = objectMapper;
     motionSensor = new DefaultMotionSensor(0, this, eventPublisher, eventFactory);
     baseTopic = MQTT_TOPIC + "/" + id + "/";
@@ -91,16 +92,6 @@ public class InstarMqttCamera implements MqttSubscriber {
         }
       }
     });
-  }
-
-  @Override
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  @Override
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
   }
 
   @Override

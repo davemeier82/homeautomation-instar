@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.davemeier82.homeautomation.core.device.DeviceId;
 import com.github.davemeier82.homeautomation.core.device.mqtt.MqttDeviceFactory;
 import com.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
-import com.github.davemeier82.homeautomation.core.event.factory.EventFactory;
 import com.github.davemeier82.homeautomation.core.event.EventPublisher;
+import com.github.davemeier82.homeautomation.core.event.factory.EventFactory;
 import com.github.davemeier82.homeautomation.core.mqtt.MqttClient;
 import com.github.davemeier82.homeautomation.instar.device.InstarMqttCamera;
 import org.slf4j.Logger;
@@ -60,10 +60,15 @@ public class InstarMqttDeviceFactory implements MqttDeviceFactory {
   }
 
   @Override
-  public MqttSubscriber createDevice(String type, String id, String displayName, Map<String, String> parameters) {
+  public MqttSubscriber createDevice(String type,
+                                     String id,
+                                     String displayName,
+                                     Map<String, String> parameters,
+                                     Map<String, String> customIdentifiers
+  ) {
     if (supportsDeviceType(type)) {
 
-      InstarMqttCamera device = new InstarMqttCamera(id, displayName, objectMapper, eventPublisher, eventFactory);
+      InstarMqttCamera device = new InstarMqttCamera(id, displayName, objectMapper, eventPublisher, eventFactory, customIdentifiers);
       log.debug("creating InstarMqttCamera device with id {} ({})", id, displayName);
       mqttClient.subscribe(device.getTopic(), device::processMessage);
       eventPublisher.publishEvent(eventFactory.createNewDeviceCreatedEvent(device));
@@ -91,7 +96,7 @@ public class InstarMqttDeviceFactory implements MqttDeviceFactory {
   @Override
   public Optional<MqttSubscriber> createMqttSubscriber(DeviceId deviceId) {
     try {
-      return Optional.of(createDevice(deviceId.type(), deviceId.id(), deviceId.toString(), Map.of()));
+      return Optional.of(createDevice(deviceId.type(), deviceId.id(), deviceId.toString(), Map.of(), Map.of()));
     } catch (IllegalArgumentException e) {
       log.debug("unknown device with id: {}", deviceId);
       return Optional.empty();
