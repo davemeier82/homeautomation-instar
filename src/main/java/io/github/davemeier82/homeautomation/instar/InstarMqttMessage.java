@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.davemeier82.homeautomation.instar;
+package io.github.davemeier82.homeautomation.instar;
 
 public class InstarMqttMessage {
 
