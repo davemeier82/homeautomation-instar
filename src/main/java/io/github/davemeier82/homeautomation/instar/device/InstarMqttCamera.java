@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.davemeier82.homeautomation.core.device.mqtt.DefaultMqttSubscriber;
 import io.github.davemeier82.homeautomation.core.device.property.DeviceProperty;
 import io.github.davemeier82.homeautomation.core.device.property.defaults.DefaultMotionSensor;
+import io.github.davemeier82.homeautomation.core.event.DataWithTimestamp;
 import io.github.davemeier82.homeautomation.core.event.EventPublisher;
 import io.github.davemeier82.homeautomation.core.event.factory.EventFactory;
 import io.github.davemeier82.homeautomation.instar.InstarMqttMessage;
@@ -84,9 +85,7 @@ public class InstarMqttCamera extends DefaultMqttSubscriber {
       if (topic.startsWith(baseTopic + "status/alarm/triggered")) {
         try {
           InstarMqttMessage instarMqttMessage = objectMapper.readValue(message, InstarMqttMessage.class);
-          if (parseInt(instarMqttMessage.getVal()) > 0) {
-            motionSensor.setLastMotionDetected(ZonedDateTime.now());
-          }
+          motionSensor.setMotionDetected(new DataWithTimestamp<>(ZonedDateTime.now(), parseInt(instarMqttMessage.getVal()) > 0));
         } catch (JsonProcessingException e) {
           throw new UncheckedIOException(e);
         }
