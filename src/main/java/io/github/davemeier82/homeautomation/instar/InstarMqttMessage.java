@@ -16,14 +16,23 @@
 
 package io.github.davemeier82.homeautomation.instar;
 
+/**
+ * Payload of an Instar mqtt message
+ */
 public class InstarMqttMessage {
 
   private String val;
 
+  /**
+   * @return the message value
+   */
   public String getVal() {
     return val;
   }
 
+  /**
+   * @param val the value
+   */
   public void setVal(String val) {
     this.val = val;
   }

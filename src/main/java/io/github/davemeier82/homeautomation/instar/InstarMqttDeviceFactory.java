@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Factory to create Instar devices (https://www.instar.com/)
+ */
 public class InstarMqttDeviceFactory implements MqttDeviceFactory {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttDeviceFactory.class);
   private final EventPublisher eventPublisher;
@@ -38,6 +41,14 @@ public class InstarMqttDeviceFactory implements MqttDeviceFactory {
   private final MqttClient mqttClient;
   private final ObjectMapper objectMapper;
 
+  /**
+   * Constructor
+   *
+   * @param eventPublisher the event publisher
+   * @param eventFactory   the event factory
+   * @param mqttClient     the MQTT Client
+   * @param objectMapper   the object mapper used to map the MQTT message payload
+   */
   public InstarMqttDeviceFactory(EventPublisher eventPublisher,
                                  EventFactory eventFactory,
                                  MqttClient mqttClient,
@@ -67,7 +78,6 @@ public class InstarMqttDeviceFactory implements MqttDeviceFactory {
                                      Map<String, String> customIdentifiers
   ) {
     if (supportsDeviceType(type)) {
-
       InstarMqttCamera device = new InstarMqttCamera(id, displayName, objectMapper, eventPublisher, eventFactory, customIdentifiers);
       log.debug("creating InstarMqttCamera device with id {} ({})", id, displayName);
       mqttClient.subscribe(device.getTopic(), device::processMessage);

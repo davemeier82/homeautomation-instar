@@ -38,6 +38,9 @@ import java.util.Optional;
 import static java.lang.Integer.parseInt;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * Instar (https://www.instar.com/) camera with MTQQ support.
+ */
 public class InstarMqttCamera extends DefaultMqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttCamera.class);
   public static final String MQTT_TOPIC = "instar";
@@ -48,6 +51,16 @@ public class InstarMqttCamera extends DefaultMqttSubscriber {
   private final String baseTopic;
   private final ObjectMapper objectMapper;
 
+  /**
+   * Constructor.
+   *
+   * @param id                device id (LAN MAC Address)
+   * @param displayName       the display name
+   * @param objectMapper      object mapper used to map MQTT message payload
+   * @param eventPublisher    the event publisher
+   * @param eventFactory      the event factory
+   * @param customIdentifiers optional custom identifiers
+   */
   public InstarMqttCamera(String id,
                           String displayName,
                           ObjectMapper objectMapper,
