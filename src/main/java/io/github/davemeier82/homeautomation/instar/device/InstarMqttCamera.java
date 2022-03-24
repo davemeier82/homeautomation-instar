@@ -40,6 +40,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Instar (https://www.instar.com/) camera with MTQQ support.
+ *
+ * @author David Meier
+ * @since 0.1.0
  */
 public class InstarMqttCamera extends DefaultMqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttCamera.class);

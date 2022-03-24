@@ -33,6 +33,9 @@ import java.util.Set;
 
 /**
  * Factory to create Instar devices (https://www.instar.com/)
+ *
+ * @author David Meier
+ * @since 0.1.0
  */
 public class InstarMqttDeviceFactory implements MqttDeviceFactory {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttDeviceFactory.class);
@@ -81,7 +84,6 @@ public class InstarMqttDeviceFactory implements MqttDeviceFactory {
       InstarMqttCamera device = new InstarMqttCamera(id, displayName, objectMapper, eventPublisher, eventFactory, customIdentifiers);
       log.debug("creating InstarMqttCamera device with id {} ({})", id, displayName);
       mqttClient.subscribe(device.getTopic(), device::processMessage);
-      eventPublisher.publishEvent(eventFactory.createNewDeviceCreatedEvent(device));
 
       return device;
     }
