@@ -20,7 +20,7 @@
     <parent>
         <groupId>io.github.davemeier82.homeautomation</groupId>
         <artifactId>homeautomation-parent</artifactId>
-        <version>0.2.6</version>
+        <version>0.2.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>homeautomation-instar</artifactId>
@@ -55,7 +55,7 @@
     </issueManagement>
 
     <properties>
-        <homeautomation-core.version>0.3.1</homeautomation-core.version>
+        <homeautomation-core.version>0.3.2-SNAPSHOT</homeautomation-core.version>
     </properties>
 
     <dependencies>
