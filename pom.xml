@@ -55,7 +55,7 @@
     </issueManagement>
 
     <properties>
-        <homeautomation-core.version>0.4.0</homeautomation-core.version>
+        <homeautomation-core.version>0.4.1</homeautomation-core.version>
     </properties>
 
     <dependencies>
