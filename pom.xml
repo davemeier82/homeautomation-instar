@@ -20,7 +20,7 @@
     <parent>
         <groupId>io.github.davemeier82.homeautomation</groupId>
         <artifactId>homeautomation-parent</artifactId>
-        <version>0.3.1</version>
+        <version>0.5.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>homeautomation-instar</artifactId>
@@ -55,7 +55,8 @@
     </issueManagement>
 
     <properties>
-        <homeautomation-core.version>0.5.3</homeautomation-core.version>
+        <homeautomation-core.version>0.5.4-SNAPSHOT</homeautomation-core.version>
+        <homeautomation-spring-core.version>0.5.2-SNAPSHOT</homeautomation-spring-core.version>
     </properties>
 
     <dependencies>
@@ -65,12 +66,25 @@
             <version>${homeautomation-core.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.github.davemeier82.homeautomation</groupId>
+            <artifactId>homeautomation-spring-core</artifactId>
+            <version>${homeautomation-spring-core.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

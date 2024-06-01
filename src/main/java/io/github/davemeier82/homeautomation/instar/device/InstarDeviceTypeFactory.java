@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2021 the original author or authors.
+ * Copyright 2021-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.davemeier82.homeautomation.instar;
+package io.github.davemeier82.homeautomation.instar.device;
 
-/**
- * Payload of an Instar mqtt message.
- *
- * @author David Meier
- * @since 0.1.0
- */
-public class InstarMqttMessage {
+import io.github.davemeier82.homeautomation.core.device.DeviceType;
+import io.github.davemeier82.homeautomation.core.device.DeviceTypeFactory;
 
-  private String val;
+import java.util.Optional;
 
-  /**
-   * @return the message value
-   */
-  public String getVal() {
-    return val;
-  }
-
-  /**
-   * @param val the value
-   */
-  public void setVal(String val) {
-    this.val = val;
+public class InstarDeviceTypeFactory implements DeviceTypeFactory {
+  @Override
+  public Optional<? extends DeviceType> createDeviceType(String typeName) {
+    return InstarDeviceType.getByTypeName(typeName);
   }
 }
