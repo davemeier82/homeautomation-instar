@@ -5,27 +5,28 @@ import io.github.davemeier82.homeautomation.core.device.mqtt.AbstractDevice;
 
 import java.util.Map;
 
-import static io.github.davemeier82.homeautomation.instar.device.InstarDeviceType.INSTAR_CAMERA;
-
 public class InstarDevice extends AbstractDevice {
-  private final String topic;
+  private final String id;
+  private final DeviceType type;
 
-  public InstarDevice(String topic,
+  public InstarDevice(String id,
+                      DeviceType type,
                       String displayName,
                       Map<String, String> customIdentifiers
   ) {
     super(displayName, customIdentifiers);
-    this.topic = topic;
+    this.id = id;
+    this.type = type;
   }
 
   @Override
   public DeviceType getType() {
-    return INSTAR_CAMERA;
+    return type;
   }
 
   @Override
   public String getId() {
-    return topic;
+    return id;
   }
 
 }

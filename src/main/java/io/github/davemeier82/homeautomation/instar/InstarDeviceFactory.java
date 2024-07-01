@@ -47,7 +47,7 @@ public class InstarDeviceFactory implements DeviceFactory {
   public Optional<Device> createDevice(DeviceType type, String id, String displayName, Map<String, String> parameters, Map<String, String> customIdentifiers) {
     if (supportsDeviceType(type)) {
       log.debug("creating {} device with id {} ({})", type.getTypeName(), id, displayName);
-      return Optional.of(new InstarDevice("instar", displayName, customIdentifiers));
+      return Optional.of(new InstarDevice(id, type, displayName, customIdentifiers));
     }
     return Optional.empty();
   }

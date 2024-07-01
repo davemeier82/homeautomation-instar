@@ -17,6 +17,7 @@
 package io.github.davemeier82.homeautomation.instar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
 import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateService;
 import io.github.davemeier82.homeautomation.spring.core.HomeAutomationCoreValueUpdateServiceAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -33,7 +34,11 @@ public class HomeAutomationInstarMqttSubscriberAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean({MotionStateValueUpdateService.class, ObjectMapper.class})
-  InstarMqttSubscriber instarMqttSubscriber(ObjectMapper objectMapper, MotionStateValueUpdateService motionStateValueUpdateService) {
-    return new InstarMqttSubscriber(objectMapper, motionStateValueUpdateService);
+  InstarMqttSubscriber instarMqttSubscriber(ObjectMapper objectMapper,
+                                            MotionStateValueUpdateService motionStateValueUpdateService,
+                                            DeviceRepository deviceRepository,
+                                            InstarDeviceFactory instarDeviceFactory
+  ) {
+    return new InstarMqttSubscriber(objectMapper, motionStateValueUpdateService, deviceRepository, instarDeviceFactory);
   }
 }

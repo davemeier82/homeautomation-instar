@@ -16,26 +16,15 @@
 
 package io.github.davemeier82.homeautomation.instar;
 
-/**
- * Payload of an Instar mqtt message.
- *
- * @author David Meier
- * @since 0.1.0
- */
+
 public class InstarAlarmStatusMessage {
 
   private String val;
 
-  /**
-   * @return the message value
-   */
   public String getVal() {
     return val;
   }
 
-  /**
-   * @param val the value
-   */
   public void setVal(String val) {
     this.val = val;
   }

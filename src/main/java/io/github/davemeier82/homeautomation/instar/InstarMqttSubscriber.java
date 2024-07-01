@@ -18,9 +18,11 @@ package io.github.davemeier82.homeautomation.instar;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.davemeier82.homeautomation.core.device.Device;
 import io.github.davemeier82.homeautomation.core.device.DeviceId;
 import io.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
 import io.github.davemeier82.homeautomation.core.device.property.DevicePropertyId;
+import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
 import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 import static io.github.davemeier82.homeautomation.instar.device.InstarDeviceType.INSTAR_CAMERA;
@@ -39,12 +42,18 @@ public class InstarMqttSubscriber implements MqttSubscriber {
   private static final Logger log = LoggerFactory.getLogger(InstarMqttSubscriber.class);
   private final ObjectMapper objectMapper;
   private final MotionStateValueUpdateService motionStateValueUpdateService;
+  private final DeviceRepository deviceRepository;
+  private final InstarDeviceFactory instarDeviceFactory;
 
   public InstarMqttSubscriber(ObjectMapper objectMapper,
-                              MotionStateValueUpdateService motionStateValueUpdateService
+                              MotionStateValueUpdateService motionStateValueUpdateService,
+                              DeviceRepository deviceRepository,
+                              InstarDeviceFactory instarDeviceFactory
   ) {
     this.objectMapper = objectMapper;
     this.motionStateValueUpdateService = motionStateValueUpdateService;
+    this.deviceRepository = deviceRepository;
+    this.instarDeviceFactory = instarDeviceFactory;
   }
 
   @Override
@@ -63,10 +72,14 @@ public class InstarMqttSubscriber implements MqttSubscriber {
       String message = UTF_8.decode(byteBuffer).toString();
       log.debug("{}: {}", topic, message);
       DeviceId deviceId = new DeviceId(topicParts[1], INSTAR_CAMERA);
+      deviceRepository.getByDeviceId(deviceId).orElseGet(() -> {
+        Device newDevice = instarDeviceFactory.createDevice(deviceId.type(), deviceId.id(), deviceId.toString(), Map.of(), Map.of()).orElseThrow();
+        deviceRepository.save(newDevice);
+        return newDevice;
+      });
       try {
         InstarAlarmStatusMessage instarAlarmStatusMessage = objectMapper.readValue(message, InstarAlarmStatusMessage.class);
         motionStateValueUpdateService.setValue(parseInt(instarAlarmStatusMessage.getVal()) > 0, OffsetDateTime.now(), new DevicePropertyId(deviceId, "motion"), "Motion State");
-
       } catch (JsonProcessingException e) {
         throw new UncheckedIOException(e);
       }
