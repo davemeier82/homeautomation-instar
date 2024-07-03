@@ -24,6 +24,7 @@ import io.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
 import io.github.davemeier82.homeautomation.core.device.property.DevicePropertyId;
 import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
 import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateService;
+import io.github.davemeier82.homeautomation.instar.device.InstarDeviceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

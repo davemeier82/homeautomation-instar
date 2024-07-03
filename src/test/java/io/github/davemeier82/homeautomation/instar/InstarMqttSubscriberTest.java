@@ -22,6 +22,7 @@ import io.github.davemeier82.homeautomation.core.device.property.DevicePropertyI
 import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
 import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateService;
 import io.github.davemeier82.homeautomation.instar.device.InstarDevice;
+import io.github.davemeier82.homeautomation.instar.device.InstarDeviceFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

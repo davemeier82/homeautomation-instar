@@ -16,6 +16,7 @@
 
 package io.github.davemeier82.homeautomation.instar;
 
+import io.github.davemeier82.homeautomation.instar.device.InstarDeviceFactory;
 import io.github.davemeier82.homeautomation.instar.device.InstarDeviceTypeFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

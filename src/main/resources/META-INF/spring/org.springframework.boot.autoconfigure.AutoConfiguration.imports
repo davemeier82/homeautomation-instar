@@ -1,0 +1,2 @@
+io.github.davemeier82.homeautomation.instar.HomeAutomationInstarAutoConfiguration
+io.github.davemeier82.homeautomation.instar.HomeAutomationInstarMqttSubscriberAutoConfiguration
