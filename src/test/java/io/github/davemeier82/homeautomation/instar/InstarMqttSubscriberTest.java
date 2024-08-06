@@ -68,7 +68,8 @@ class InstarMqttSubscriberTest {
     mqttSubscriber.processMessage("instar/1234567890AB/status/alarm/triggered", Optional.of(ByteBuffer.wrap(message.getBytes(UTF_8))));
 
     verify(deviceRepository).save(instarDevice);
-    verify(motionStateValueUpdateService).setValue(eq(true), any(OffsetDateTime.class), eq(new DevicePropertyId(new DeviceId("1234567890AB", INSTAR_CAMERA), "motion")), eq("Motion State"));
+    verify(motionStateValueUpdateService).setValue(eq(true), any(OffsetDateTime.class), eq(new DevicePropertyId(new DeviceId("1234567890AB", INSTAR_CAMERA), "instar-camera-1234567890AB: motion")),
+        eq("Motion State"));
 
   }
 

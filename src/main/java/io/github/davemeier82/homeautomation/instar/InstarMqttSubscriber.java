@@ -80,7 +80,7 @@ public class InstarMqttSubscriber implements MqttSubscriber {
       });
       try {
         InstarAlarmStatusMessage instarAlarmStatusMessage = objectMapper.readValue(message, InstarAlarmStatusMessage.class);
-        motionStateValueUpdateService.setValue(parseInt(instarAlarmStatusMessage.getVal()) > 0, OffsetDateTime.now(), new DevicePropertyId(deviceId, "motion"), "Motion State");
+        motionStateValueUpdateService.setValue(parseInt(instarAlarmStatusMessage.getVal()) > 0, OffsetDateTime.now(), new DevicePropertyId(deviceId, deviceId + ": motion"), "Motion State");
       } catch (JsonProcessingException e) {
         throw new UncheckedIOException(e);
       }
