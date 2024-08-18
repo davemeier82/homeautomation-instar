@@ -56,7 +56,7 @@
 
     <properties>
         <homeautomation-core.version>0.6.0</homeautomation-core.version>
-        <homeautomation-spring-core.version>0.5.2-SNAPSHOT</homeautomation-spring-core.version>
+        <homeautomation-spring-core.version>0.6.0</homeautomation-spring-core.version>
     </properties>
 
     <dependencies>
