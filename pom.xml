@@ -55,16 +55,10 @@
     </issueManagement>
 
     <properties>
-        <homeautomation-core.version>0.6.0</homeautomation-core.version>
         <homeautomation-spring-core.version>0.6.0</homeautomation-spring-core.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.davemeier82.homeautomation</groupId>
-            <artifactId>homeautomation-core</artifactId>
-            <version>${homeautomation-core.version}</version>
-        </dependency>
         <dependency>
             <groupId>io.github.davemeier82.homeautomation</groupId>
             <artifactId>homeautomation-spring-core</artifactId>
