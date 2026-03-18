@@ -16,8 +16,6 @@
 
 package io.github.davemeier82.homeautomation.instar;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.davemeier82.homeautomation.core.device.Device;
 import io.github.davemeier82.homeautomation.core.device.DeviceId;
 import io.github.davemeier82.homeautomation.core.device.mqtt.MqttSubscriber;
@@ -27,8 +25,8 @@ import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateS
 import io.github.davemeier82.homeautomation.instar.device.InstarDeviceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -78,12 +76,8 @@ public class InstarMqttSubscriber implements MqttSubscriber {
         deviceRepository.save(newDevice);
         return newDevice;
       });
-      try {
-        InstarAlarmStatusMessage instarAlarmStatusMessage = objectMapper.readValue(message, InstarAlarmStatusMessage.class);
-        motionStateValueUpdateService.setValue(parseInt(instarAlarmStatusMessage.getVal()) > 0, OffsetDateTime.now(), new DevicePropertyId(deviceId, deviceId + ": motion"), "Motion State");
-      } catch (JsonProcessingException e) {
-        throw new UncheckedIOException(e);
-      }
+      InstarAlarmStatusMessage instarAlarmStatusMessage = objectMapper.readValue(message, InstarAlarmStatusMessage.class);
+      motionStateValueUpdateService.setValue(parseInt(instarAlarmStatusMessage.getVal()) > 0, OffsetDateTime.now(), new DevicePropertyId(deviceId, deviceId + ": motion"), "Motion State");
     });
   }
 

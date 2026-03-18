@@ -16,7 +16,6 @@
 
 package io.github.davemeier82.homeautomation.instar;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.davemeier82.homeautomation.core.repositories.DeviceRepository;
 import io.github.davemeier82.homeautomation.core.updater.MotionStateValueUpdateService;
 import io.github.davemeier82.homeautomation.instar.device.InstarDeviceFactory;
@@ -24,9 +23,10 @@ import io.github.davemeier82.homeautomation.spring.core.HomeAutomationCoreValueU
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 @AutoConfigureAfter({HomeAutomationCoreValueUpdateServiceAutoConfiguration.class, JacksonAutoConfiguration.class})
